@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/ui/auth/login_screen.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../widgets/round_button.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -15,6 +16,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final passController = TextEditingController();
   final confirmPassController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -81,6 +84,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if(value!.isEmpty){
                         return 'Enter Password';
                       }
+                      else if(value!.toString() != passController!.text!.toString()){
+                        return 'Password does not match';
+                      }
                       return null;
                     },
                   ),
@@ -92,7 +98,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
               title: 'SignUp',
               onTap: () {
                 if(_formKey.currentState!.validate()){
-
+                  if(kDebugMode){
+                    print(passController.text.toString() == confirmPassController.text.toString());
+                  }
+                  if(passController.text.toString() == confirmPassController.text.toString()){
+                    _auth.createUserWithEmailAndPassword(
+                        email: emailController.text.toString(),
+                        password: passController.text.toString()
+                    );
+                  }
                 }
               },
             ),

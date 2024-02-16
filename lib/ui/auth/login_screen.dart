@@ -48,14 +48,16 @@ class _LogInScreenState extends State<LogInScreen> {
                         helperText: 'enter email e.g: abc@xyz.com',
                         prefixIcon: Icon(Icons.alternate_email),
                       ),
-                      validator: (value){
-                        if(value!.isEmpty){
+                      validator: (value) {
+                        if (value!.isEmpty) {
                           return 'Enter Email';
                         }
                         return null;
                       },
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     TextFormField(
                       keyboardType: TextInputType.text,
                       controller: passController,
@@ -63,8 +65,8 @@ class _LogInScreenState extends State<LogInScreen> {
                         hintText: 'Password',
                         prefixIcon: Icon(Icons.lock),
                       ),
-                      validator: (value){
-                        if(value!.isEmpty){
+                      validator: (value) {
+                        if (value!.isEmpty) {
                           return 'Enter Password';
                         }
                         return null;
@@ -73,22 +75,30 @@ class _LogInScreenState extends State<LogInScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
               RoundButton(
                 title: 'LogIn',
                 onTap: () {
-                  if(_formKey.currentState!.validate()){
-
-                  }
+                  if (_formKey.currentState!.validate()) {}
                 },
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Row(
                 children: [
                   Text("Don't have an Account? "),
-                  TextButton(onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpScreen()));
-                  }, child: Text('Sign Up'))
+                  TextButton(
+
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUpScreen()));
+                      },
+                      child: Text('Sign Up'))
                 ],
               )
             ],
