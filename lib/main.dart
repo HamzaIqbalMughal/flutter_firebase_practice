@@ -4,12 +4,11 @@ import 'package:flutter_firebase_practice/ui/splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  runApp(const MyApp());
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(const MyApp());
 
 }
 
