@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/ui/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_practice/utils/utils.dart';
 import '../../widgets/round_button.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -12,6 +13,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+
+  bool loading = false;
+
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final confirmPassController = TextEditingController();
@@ -26,6 +30,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
     passController.dispose();
     super.dispose();
   }
+
+  void signUp(){
+    if(passController.text.toString() == confirmPassController.text.toString()){
+      setState(() {
+        loading = true;
+      });
+      _auth.createUserWithEmailAndPassword(
+          email: emailController.text.toString(),
+          password: passController.text.toString()
+      ).then((value) {
+        setState(() {
+          loading = false;
+        });
+      }).onError((error, stackTrace) {
+        Utils().toastMessage(error.toString());
+        setState(() {
+          loading = false;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,18 +121,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             SizedBox(height: 50,),
             RoundButton(
+              loading: loading,
               title: 'SignUp',
               onTap: () {
                 if(_formKey.currentState!.validate()){
-                  if(kDebugMode){
-                    print(passController.text.toString() == confirmPassController.text.toString());
-                  }
-                  if(passController.text.toString() == confirmPassController.text.toString()){
-                    _auth.createUserWithEmailAndPassword(
-                        email: emailController.text.toString(),
-                        password: passController.text.toString()
-                    );
-                  }
+                  signUp();
                 }
               },
             ),
