@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/ui/auth/signup_screen.dart';
+import 'package:flutter_firebase_practice/ui/posts/post_screen.dart';
+import 'package:flutter_firebase_practice/utils/utils.dart';
 import 'package:flutter_firebase_practice/widgets/round_button.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -14,12 +18,38 @@ class _LogInScreenState extends State<LogInScreen> {
   final passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  final _auth = FirebaseAuth.instance;
+  bool loading = false;
+
   @override
   void dispose() {
     // TODO: implement dispose
     emailController.dispose();
     passController.dispose();
     super.dispose();
+  }
+
+  void logIn() {
+    setState(() {
+      loading = true;
+    });
+    _auth
+        .signInWithEmailAndPassword(
+            email: emailController.text.toString(),
+            password: passController.text.toString())
+        .then((value) {
+      setState(() {
+        loading = false;
+        Utils().toastMessage(value.user!.email.toString() + ' is Successfully Loged In');
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> PostScreen()));
+      });
+    }).onError((error, stackTrace) {
+      debugPrint(error.toString());
+      Utils().toastMessage(error.toString());
+      setState(() {
+        loading = false;
+      });
+    });
   }
 
   @override
@@ -80,8 +110,11 @@ class _LogInScreenState extends State<LogInScreen> {
               ),
               RoundButton(
                 title: 'LogIn',
+                loading: loading,
                 onTap: () {
-                  if (_formKey.currentState!.validate()) {}
+                  if (_formKey.currentState!.validate()) {
+                    logIn();
+                  }
                 },
               ),
               SizedBox(
@@ -91,7 +124,6 @@ class _LogInScreenState extends State<LogInScreen> {
                 children: [
                   Text("Don't have an Account? "),
                   TextButton(
-
                       onPressed: () {
                         Navigator.push(
                             context,

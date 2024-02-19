@@ -4,6 +4,7 @@ import 'package:flutter_firebase_practice/ui/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_practice/utils/utils.dart';
 import '../../widgets/round_button.dart';
+import '../posts/post_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -43,6 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() {
           loading = false;
         });
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> PostScreen()));
       }).onError((error, stackTrace) {
         Utils().toastMessage(error.toString());
         setState(() {
