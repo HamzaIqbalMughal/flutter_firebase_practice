@@ -1,0 +1,31 @@
+
+
+
+=>Firebase Phone Authentication
+-> for validating your application against phone number on firebase application
+
+    - As we can see below that auth.verifyPhoneNumber() requires various methods;
+        - phoneNumber:
+        - verificationFailed: a callback function
+        - verificationCompleted: a callback function
+        - codeSent: a callback function which requires verification and token
+        - codeAutoRetrievalTimeout:
+
+      final auth = FirebaseAuth.instance;
+
+      auth.verifyPhoneNumber(
+                      phoneNumber: phoneNumberController.text.toString(),
+                        verificationCompleted: (_){
+
+                        },
+                        verificationFailed: (e){
+                          Utils().toastMessage(e.toString());
+                        },
+                        codeSent: (String verification, int? token){
+
+                        },
+                      codeAutoRetrievalTimeout: (e){
+                        Utils().toastMessage(e.toString());
+                      },
+                    );
+
