@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/ui/auth/verify_code.dart';
 import 'package:flutter_firebase_practice/utils/utils.dart';
@@ -55,10 +56,13 @@ class _LogInWithPhoneNumberState extends State<LogInWithPhoneNumber> {
                       });
                     },
                     verificationFailed: (e) {
-                      Utils().toastMessage(e.toString());
+                      Utils().toastMessage("verification-Failed"+e.toString());
                       setState(() {
                         loading = false;
                       });
+                      if(kDebugMode){
+
+                      }
                     },
                     codeSent: (String verificationId, int? token) {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyCodeScreen(verificationId: verificationId,)));
