@@ -49,7 +49,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 setState(() {
                   loading = true;
                 });
-                databaseRef.child(DateTime.now().millisecondsSinceEpoch.toString()).child('Comment').set({
+                databaseRef.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
                   'title' : postController.text.toString(),
                   'id' : DateTime.now().millisecondsSinceEpoch.toString()
                 }).then((value){

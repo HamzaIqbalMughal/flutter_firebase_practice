@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/ui/auth/login_screen.dart';
 import 'package:flutter_firebase_practice/utils/utils.dart';
@@ -16,7 +18,7 @@ class _PostScreenState extends State<PostScreen> {
 
   final auth = FirebaseAuth.instance;
 
-
+  final firebasePostRef = FirebaseDatabase.instance.ref('post');
 
 
   @override
@@ -41,6 +43,22 @@ class _PostScreenState extends State<PostScreen> {
           Navigator.push(context, MaterialPageRoute(builder: (context)=> AddPostScreen()));
         },
         child: Icon(Icons.add),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: FirebaseAnimatedList(
+                query: firebasePostRef, 
+                itemBuilder: (context, snapshot, animation, index){
+                  return ListTile(
+                    title: Text(snapshot.child('title').value.toString()),
+                    subtitle: Text(snapshot.child('id').value.toString()),
+                  );
+                },
+            ),
+          ),
+          
+        ],
       ),
     );
   }

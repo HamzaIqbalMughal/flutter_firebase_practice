@@ -34,10 +34,28 @@
     - final databaseRef = FirebaseDatabase.instance.ref('Post');  // this will create a document named post
     - Post is like a table, but in Firebase we call it node.
     -
-    databaseRef.child('2').set({
+
+        final databaseRef = FirebaseDatabase.instance.ref('post');
+
+        databaseRef.child(DateTime.now().millisecondsSinceEpoch.toString()).child('Comment').set({  // for nested child
                       'title' : 'hello',
                       'id' : 12
                     }).then((value){
                     }).onError((error, stackTrace) {
                     });
+
+   - used FirebaseAnimatedList() widget to fetch data,
+        FirebaseAnimatedList(
+                   query: databaseRef,
+                   itemBuilder: (context, snapshot, animation, index){
+                     return ListTile(
+                       title: Text(snapshot.child('title').value.toString()),
+                     );
+                   },
+               )
+   - FirebaseAnimatedList() is automatically synced, working as Streambuilder in app
+        - UI is automatically updating when there is any change in database.
+
+=>
+
 
