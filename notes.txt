@@ -29,3 +29,15 @@
                       },
                     );
 
+=>Firebase Realtime Database CRUD Operations
+    - Add firebase_database package in pubspec.yaml
+    - final databaseRef = FirebaseDatabase.instance.ref('Post');  // this will create a document named post
+    - Post is like a table, but in Firebase we call it node.
+    -
+    databaseRef.child('2').set({
+                      'title' : 'hello',
+                      'id' : 12
+                    }).then((value){
+                    }).onError((error, stackTrace) {
+                    });
+

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/ui/auth/login_screen.dart';
 import 'package:flutter_firebase_practice/utils/utils.dart';
 
+import 'add_post_screen.dart';
+
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
 
@@ -21,7 +23,7 @@ class _PostScreenState extends State<PostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: Colors.deepPurpleAccent,
         title: Text('Post Screen'),
         actions: [
           Text('Log out'),
@@ -33,6 +35,12 @@ class _PostScreenState extends State<PostScreen> {
             });
           }, icon: Icon(Icons.logout_outlined))
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddPostScreen()));
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
