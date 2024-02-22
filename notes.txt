@@ -30,6 +30,15 @@
                     );
 
 =>Firebase Realtime Database CRUD Operations
+
+-> Creating and Fetching Realtime Firebase data,
+    For Fetching we have 2 methods :
+        1. using FirebaseAnimatedList()
+        2. using Streambuilder()
+
+    ------------------------------------------------------------
+
+    1. For fetching FirebaseAnimatedList() is used, which comes with the firebase_database package.
     - Add firebase_database package in pubspec.yaml
     - final databaseRef = FirebaseDatabase.instance.ref('Post');  // this will create a document named post
     - Post is like a table, but in Firebase we call it node.
@@ -44,7 +53,7 @@
                     }).onError((error, stackTrace) {
                     });
 
-   - used FirebaseAnimatedList() widget to fetch data,
+    - used FirebaseAnimatedList() widget to fetch data,
         FirebaseAnimatedList(
                    query: databaseRef,
                    itemBuilder: (context, snapshot, animation, index){
@@ -53,9 +62,11 @@
                      );
                    },
                )
-   - FirebaseAnimatedList() is automatically synced, working as Streambuilder in app
+    - FirebaseAnimatedList() is automatically synced, working as Streambuilder in app
         - UI is automatically updating when there is any change in database.
 
-=>
+    ------------------------------------------------------------
+    2. Now fetching Realtime data with Streambuilder() instead using FirebaseAnimatedList().
+
 
 

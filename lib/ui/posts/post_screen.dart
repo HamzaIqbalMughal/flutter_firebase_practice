@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -20,6 +21,12 @@ class _PostScreenState extends State<PostScreen> {
 
   final firebasePostRef = FirebaseDatabase.instance.ref('post');
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    // firebasePostRef.onValue.listen((event) { });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +53,55 @@ class _PostScreenState extends State<PostScreen> {
       ),
       body: Column(
         children: [
+          const Divider(
+            height: 20,
+            thickness: 10,
+            color: Colors.red,
+          ),
+          const Text('Below data fetched using StreamBuilder',),
+          const Divider(
+            height: 20,
+            thickness: 10,
+            color: Colors.red,
+          ),
+
+          Expanded(
+              child: StreamBuilder(
+                  stream: firebasePostRef.onValue,
+                  builder: (context,AsyncSnapshot<DatabaseEvent> snapshot){
+                    Map<dynamic, dynamic> map = snapshot.data!.snapshot.value as dynamic;
+                    List<dynamic> list = [];
+                    list.clear();
+                    list = map.values.toList();
+                    if(!snapshot.hasData){
+                      return CircularProgressIndicator();
+                    }else{
+                      return ListView.builder(
+                          itemCount: snapshot.data!.snapshot.children.length,
+                          itemBuilder: (context, index){
+                            return ListTile(
+                              title: Text(list[index]['title'].toString()),
+                              subtitle: Text(list[index]['id'].toString()),
+                            );
+                          }
+                      );
+                    }
+                  }
+              ),
+          ),
+
+
+          const Divider(
+            height: 20,
+            thickness: 10,
+            color: Colors.red,
+          ),
+          const Text('Below data fetched using FirebaseAnimatedList',),
+          const Divider(
+            height: 20,
+            thickness: 10,
+            color: Colors.red,
+          ),
           Expanded(
             child: FirebaseAnimatedList(
                 query: firebasePostRef, 
