@@ -34,7 +34,7 @@
 -> Creating and Fetching Realtime Firebase data,
     For Fetching we have 2 methods :
         1. using FirebaseAnimatedList()
-        2. using Streambuilder()
+        2. using StreamBuilder()
 
     ------------------------------------------------------------
 
@@ -62,11 +62,17 @@
                      );
                    },
                )
-    - FirebaseAnimatedList() is automatically synced, working as Streambuilder in app
+    - FirebaseAnimatedList() is automatically synced, working as StreamBuilder in app
         - UI is automatically updating when there is any change in database.
 
     ------------------------------------------------------------
-    2. Now fetching Realtime data with Streambuilder() instead using FirebaseAnimatedList().
+    2. Now fetching Realtime data with StreamBuilder() instead using FirebaseAnimatedList().
 
+    => FirebaseAnimatedList vs StreamBuilder
+    - we can only use FirebaseAnimatedList during runtime, means can only use in Widget tree
+    - Whereas StreamBuilder let us fetch data and use it any where
+
+=> Filtering the list
+    -
 
 
