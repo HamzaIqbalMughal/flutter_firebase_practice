@@ -104,11 +104,11 @@ class _PostScreenState extends State<PostScreen> {
                         return Center(child: Text('Not Found'),);
                       }
                       else{
+                        matchedItemcount = 0;
+                        searchedItemNotFound = false;
                         return ListView.builder(
                           itemCount: snapshot.data!.snapshot.children.length,
                           itemBuilder: (context, index) {
-                            matchedItemcount = 0;
-                            searchedItemNotFound = false;
                             if (searchFilter.text.isEmpty) {
                               return ListTile(
                                 title: Text(list[index]['title'].toString()),
@@ -162,7 +162,9 @@ class _PostScreenState extends State<PostScreen> {
                                 ),
                               );
                             } else {
-                              searchedItemNotFound = true;
+                              if(matchedItemcount == 0 && index == snapshot.data!.snapshot.children.length-1){
+                                searchedItemNotFound = true;
+                              }
                               return Container();
                             }
                           },
