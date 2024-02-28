@@ -75,4 +75,18 @@
 => Filtering the list
     -
 
+=> Updating data
+    firebasePostRef.child(id).update({
+                        'title': editController.text.toString()
+                      }).then((value) {
+                        Utils().toastMessage('Post Updated');
+                      }).onError((error, stackTrace) {
+                        Utils().toastMessage(error.toString());
+                      });
+
+=> Deleting Data from firebase
+    firebasePostRef.child(snapshot.child('id').value.toString()).remove();
+
+=>
+
 

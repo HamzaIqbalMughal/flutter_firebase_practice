@@ -11,11 +11,10 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
-
   final postController = TextEditingController();
   bool loading = false;
-  final databaseRef = FirebaseDatabase.instance.ref('post');  // this will create a document named post
-
+  final databaseRef = FirebaseDatabase.instance
+      .ref('post'); // this will create a document named post
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               controller: postController,
               maxLines: 4,
               decoration: InputDecoration(
-                  hintText: 'What is in your mind',
+                hintText: 'What is in your mind',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -52,9 +51,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
                 String id = DateTime.now().millisecondsSinceEpoch.toString();
                 databaseRef.child(id).set({
-                  'title' : postController.text.toString(),
-                  'id' : id,
-                }).then((value){
+                  'title': postController.text.toString(),
+                  'id': id,
+                }).then((value) {
                   setState(() {
                     loading = false;
                   });
@@ -72,4 +71,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
       ),
     );
   }
+
+
 }
