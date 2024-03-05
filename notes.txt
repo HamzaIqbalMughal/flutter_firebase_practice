@@ -89,4 +89,7 @@
 
 =>
 
+==> Firestore Realtime database vs Firebase realtime database
+
+
 
