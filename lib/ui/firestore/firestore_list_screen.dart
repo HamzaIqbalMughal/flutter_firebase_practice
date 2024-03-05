@@ -2,19 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_practice/ui/firestore/add_firestore_data_screen.dart';
 
 import '../../utils/utils.dart';
 import '../auth/login_screen.dart';
 import '../posts/add_post_screen.dart';
 
-class FireStoreScreenList extends StatefulWidget {
-  const FireStoreScreenList({super.key});
+class FireStoreListScreen extends StatefulWidget {
+  const FireStoreListScreen({super.key});
 
   @override
-  State<FireStoreScreenList> createState() => _FireStoreScreenListState();
+  State<FireStoreListScreen> createState() => _FireStoreListScreenState();
 }
 
-class _FireStoreScreenListState extends State<FireStoreScreenList> {
+class _FireStoreListScreenState extends State<FireStoreListScreen> {
 
   final auth = FirebaseAuth.instance;
 
@@ -83,7 +84,7 @@ class _FireStoreScreenListState extends State<FireStoreScreenList> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddPostScreen()));
+              MaterialPageRoute(builder: (context) => AddFireStoreDataScreen()));
         },
         child: Icon(Icons.add),
       ),
