@@ -34,7 +34,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               controller: postController,
               maxLines: 4,
               decoration: InputDecoration(
-                hintText: 'What is in your mind',
+                hintText: 'What is in your mind?',
                 border: OutlineInputBorder(),
               ),
             ),
