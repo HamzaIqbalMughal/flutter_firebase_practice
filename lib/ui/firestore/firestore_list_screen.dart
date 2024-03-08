@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -24,6 +25,8 @@ class _FireStoreListScreenState extends State<FireStoreListScreen> {
 
   bool searchedItemNotFound = false;
   int matchedItemcount = 0;
+
+  final fireStore_users = FirebaseFirestore.instance.collection('users').snapshots();
 
   @override
   void initState() {
@@ -69,15 +72,28 @@ class _FireStoreListScreenState extends State<FireStoreListScreen> {
               },
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-                itemBuilder: (context,index){
-                  return ListTile(
-                    title: Text('vcvbcvb'),
-                  );
+          StreamBuilder<QuerySnapshot>(
+              stream: fireStore_users,
+              builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return CircularProgressIndicator();
                 }
-            )
+                if(snapshot.hasError){
+                  return Text('Some Error');
+                }
+
+                return Expanded(
+                    child: ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context,index){
+                          return ListTile(
+                            title: Text(snapshot.data!.docs[index]['title'].toString()),
+                          );
+                        }
+                    )
+                );
+              }
           ),
         ],
       ),

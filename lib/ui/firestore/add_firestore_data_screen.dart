@@ -54,6 +54,7 @@ class _AddFireStoreDataScreenState extends State<AddFireStoreDataScreen> {
                   loading = true;
                 });
 
+                /*
                 fireStore_persons.doc(id).set({
                   'title' : postController.text.toString(),
                   'id' : id,
@@ -65,7 +66,7 @@ class _AddFireStoreDataScreenState extends State<AddFireStoreDataScreen> {
                 }).onError((error, stackTrace) {
                   Utils().toastMessage(error.toString());
                 });
-                /*
+                */
                 fireStore_users.doc(id).set({
                   'title' : postController.text.toString(),
                   'id' : id,
@@ -77,8 +78,6 @@ class _AddFireStoreDataScreenState extends State<AddFireStoreDataScreen> {
                 }).onError((error, stackTrace) {
                   Utils().toastMessage(error.toString());
                 });
-
-                 */
               },
             ),
           ],
