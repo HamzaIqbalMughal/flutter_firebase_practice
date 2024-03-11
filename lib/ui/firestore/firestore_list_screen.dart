@@ -17,7 +17,6 @@ class FireStoreListScreen extends StatefulWidget {
 }
 
 class _FireStoreListScreenState extends State<FireStoreListScreen> {
-
   final auth = FirebaseAuth.instance;
 
   final searchFilter = TextEditingController();
@@ -26,7 +25,10 @@ class _FireStoreListScreenState extends State<FireStoreListScreen> {
   bool searchedItemNotFound = false;
   int matchedItemcount = 0;
 
-  final fireStore_users = FirebaseFirestore.instance.collection('users').snapshots();
+  final fireStore_users =
+      FirebaseFirestore.instance.collection('users').snapshots();
+
+  CollectionReference ref = FirebaseFirestore.instance.collection('users');
 
   @override
   void initState() {
@@ -55,7 +57,6 @@ class _FireStoreListScreenState extends State<FireStoreListScreen> {
               icon: Icon(Icons.logout_outlined))
         ],
       ),
-
       body: Column(
         children: [
           Padding(
@@ -74,33 +75,52 @@ class _FireStoreListScreenState extends State<FireStoreListScreen> {
           ),
           StreamBuilder<QuerySnapshot>(
               stream: fireStore_users,
-              builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
-
-                if(snapshot.connectionState == ConnectionState.waiting){
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 }
-                if(snapshot.hasError){
+                if (snapshot.hasError) {
                   return Text('Some Error');
                 }
 
                 return Expanded(
-                    child: ListView.builder(
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context,index){
-                          return ListTile(
-                            title: Text(snapshot.data!.docs[index]['title'].toString()),
-                          );
-                        }
-                    )
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () {
+                          ref
+                              .doc(snapshot.data!.docs[index]['id'].toString())
+                              .update({'title': 'Updated title'})
+                              .then((value) {})
+                              .onError((error, stackTrace) {
+                                Utils().toastMessage(error.toString());
+                              });
+                        },
+                        title: Text(
+                            snapshot.data!.docs[index]['title'].toString()),
+                        subtitle:
+                            Text(snapshot.data!.docs[index]['id'].toString()),
+                        trailing: GestureDetector(
+                          onTap: (){
+                            ref.doc(snapshot.data!.docs[index]['id'].toString()).delete();
+                          },
+                            child: Icon(Icons.delete_outline)
+                        ),
+                      );
+                    },
+                  ),
                 );
-              }
-          ),
+              }),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddFireStoreDataScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AddFireStoreDataScreen()));
         },
         child: Icon(Icons.add),
       ),
@@ -117,30 +137,23 @@ class _FireStoreListScreenState extends State<FireStoreListScreen> {
           content: Container(
             child: TextField(
               controller: editController,
-              decoration: InputDecoration(
-                  hintText: 'Edit here'
-              ),
+              decoration: InputDecoration(hintText: 'Edit here'),
             ),
           ),
           actions: [
             TextButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.pop(context);
-
                 },
-                child: Text('Update')
-            ),
+                child: Text('Update')),
             TextButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel')
-            ),
+                child: Text('Cancel')),
           ],
         );
       },
     );
   }
-
-
 }
