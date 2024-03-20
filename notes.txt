@@ -92,4 +92,10 @@
 ==> Firestore Realtime database vs Firebase realtime database
 
 
+// ----------------------------------------------------------------------
+=> Uploading Image to Firebase
+// 1. Added image_picker package, that helps us to pick image, from camera, or gallery.
+
+
+
 

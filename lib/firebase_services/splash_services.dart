@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/ui/auth/login_screen.dart';
 import 'package:flutter_firebase_practice/ui/firestore/firestore_list_screen.dart';
 import 'package:flutter_firebase_practice/ui/posts/post_screen.dart';
+import 'package:flutter_firebase_practice/ui/upload_image_screen.dart';
 
 class SplashServices{
 
@@ -18,7 +19,8 @@ class SplashServices{
 
     if(user != null){
       Timer(Duration(seconds: 3), () {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FireStoreListScreen()));
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FireStoreListScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UploadImageScreen()));
       });
     }
     /*
