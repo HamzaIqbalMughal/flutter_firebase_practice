@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/utils/utils.dart';
 import 'package:flutter_firebase_practice/widgets/round_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
+import 'auth/login_screen.dart';
 
 class UploadImageScreen extends StatefulWidget {
   const UploadImageScreen({super.key});
@@ -15,6 +18,8 @@ class UploadImageScreen extends StatefulWidget {
 }
 
 class _UploadImageScreenState extends State<UploadImageScreen> {
+
+  final auth = FirebaseAuth.instance;
 
   bool _loading = false;
 
@@ -45,7 +50,21 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Firebase'),
+        backgroundColor: Colors.deepPurpleAccent,
+        title: const Text('Image Firebase'),
+        actions: [
+          const Text('Log out'),
+          IconButton(
+              onPressed: () {
+                auth.signOut().then((value) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LogInScreen()));
+                }).onError((error, stackTrace) {
+                  Utils().toastMessage(error.toString());
+                });
+              },
+              icon: Icon(Icons.logout_outlined))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

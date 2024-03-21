@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_practice/ui/auth/forgot_password_screen.dart';
 import 'package:flutter_firebase_practice/ui/auth/login_with_phone_number.dart';
 import 'package:flutter_firebase_practice/ui/auth/signup_screen.dart';
 import 'package:flutter_firebase_practice/ui/posts/post_screen.dart';
@@ -133,6 +135,19 @@ class _LogInScreenState extends State<LogInScreen> {
                       },
                       child: Text('Sign Up'))
                 ],
+              ),
+              
+              Align(
+                alignment: Alignment.bottomRight,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordScreen()));
+                    },
+                    child: Text('Forgot Password'),
+                ),
               ),
               InkWell(
                 onTap: (){
