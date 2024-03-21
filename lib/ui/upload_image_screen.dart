@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_practice/utils/utils.dart';
 import 'package:flutter_firebase_practice/widgets/round_button.dart';
@@ -15,8 +16,16 @@ class UploadImageScreen extends StatefulWidget {
 
 class _UploadImageScreenState extends State<UploadImageScreen> {
 
+  bool _loading = false;
+
   File? _image;
   final picker = ImagePicker();
+
+
+  firebase_storage.FirebaseStorage storage_firebase = firebase_storage.FirebaseStorage.instance;
+
+  final firebaseDatabase_ref = FirebaseDatabase.instance.ref('ImageUrl');
+
 
   Future getGalleryImage() async{
     final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
@@ -62,7 +71,41 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
               ),
             ),
             SizedBox(height: 30,),
-            RoundButton(title: 'Upload', onTap: (){
+            RoundButton(title: 'Upload',loading: _loading , onTap: () async {
+
+              setState(() {
+                _loading = true;
+              });
+
+              // firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref('/folderName/'+'profilePic');
+
+              firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref('/profilesPics/'+DateTime.now().millisecondsSinceEpoch.toString());
+              firebase_storage.UploadTask uploadTask = ref.putFile(_image!.absolute);
+              Future.value(uploadTask).then((value) async {
+                var newImgUrl = await ref.getDownloadURL();
+
+                firebaseDatabase_ref.child('4').set({
+                  'id': '444',
+                  'title': newImgUrl.toString()
+                }).then((value) {
+                  setState(() {
+                    _loading = false;
+                  });
+                  Utils().toastMessage('Image Uploaded');
+                }).onError((error, stackTrace) {
+                  setState(() {
+                    _loading = false;
+                  });
+                });
+              }).onError((error, stackTrace) {
+                Utils().toastMessage(error.toString());
+                setState(() {
+                  _loading = false;
+                });
+              });
+
+
+
 
             }),
           ],
